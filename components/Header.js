@@ -5,6 +5,7 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
 import { IoIosArrowForward, IoIosArrowDown } from "react-icons/io";
+import Link from "next/link";
 
 function hamburger() {
   const [show, setShow] = useState(false);
@@ -60,7 +61,9 @@ const Header = () => {
     <>
       <Navbar className="bg-body-white navBar">
         <Container>
-          <Navbar.Brand href="#home">Brand link</Navbar.Brand>
+          <Link className="link" href="/">
+            <h3>ERP</h3>
+          </Link>
           {hamburger()}
         </Container>
       </Navbar>

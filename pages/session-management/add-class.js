@@ -126,7 +126,7 @@ const AddClass = () => {
             />
           </div>
           <div className=" mt-5">
-            <h2 className="mb-5"> ADD CLASS TO SELECTED SESSION</h2>
+            <h2 className="mb-5">CREATE AND ADD CLASS TO SELECTED SESSION</h2>
             <form onSubmit={handleFormSubmit}>
               <input
                 className="form-control my-2 "

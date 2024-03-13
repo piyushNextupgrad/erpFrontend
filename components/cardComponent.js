@@ -3,7 +3,7 @@ import Card from "react-bootstrap/Card";
 import Link from "next/link";
 function CardComp({ item }) {
   return (
-    <Card style={{ width: "18rem" }}>
+    <Card className="card" style={{ width: "18rem" }}>
       {/* <Card.Img variant="top" src={item.img} /> */}
       <Card.Body>
         <Card.Title>
@@ -20,11 +20,13 @@ function CardComp({ item }) {
             {item.btn[1]}
           </Link>
         </Button>
-        <Button className="my-2 w-100 btn-sm btn2">
-          <Link className="cardLink" href={item.links[2]}>
-            {item.btn[2]}
-          </Link>
-        </Button>
+        {item.btn[2] ? (
+          <Button className="my-2 w-100 btn-sm btn2">
+            <Link className="cardLink" href={item.links[2]}>
+              {item.btn[2]}
+            </Link>
+          </Button>
+        ) : null}
       </Card.Body>
     </Card>
   );

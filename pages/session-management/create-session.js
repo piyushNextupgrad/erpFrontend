@@ -6,9 +6,13 @@ import { toast } from "sonner";
 import axios from "axios";
 import Table from "react-bootstrap/Table";
 import moment from "moment";
+import { useSelector, useDispatch } from "react-redux";
+import { change } from "../../store/slice";
+import Swal from "sweetalert2";
 
 const DynamicSession = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const [sessionData, setsessionData] = useState([]);
   const [pathname, setpathname] = useState("");
   const [sessionname, setSessionname] = useState("");
@@ -64,6 +68,49 @@ const DynamicSession = () => {
       setsessionData(res.data.data);
       console.log("sessions", res);
     }
+  }
+
+  function deleteSession(id) {
+    console.log(id);
+
+    async function finallyDelete() {
+      try {
+        dispatch(change(true));
+        const res = await axios.post(
+          process.env.NEXT_PUBLIC_SITE_URL + "/session/api/deleteSession",
+          {
+            id: id,
+          }
+        );
+        if (res.data.success) {
+          dispatch(change(false));
+          toast.success("session deleted");
+          getSession();
+        } else {
+          dispatch(change(false));
+          toast.error("something went wrong");
+        }
+      } catch (err) {
+        dispatch(change(false));
+        toast.error(err.message);
+      }
+    }
+    Swal.fire({
+      title: "Warning",
+      text: "Are you sure you want to delete the session. All the data and classes associated with the session will be lost.",
+      showDenyButton: true,
+      icon: "warning",
+
+      confirmButtonText: "Yes Delete",
+      denyButtonText: `Don't Delete`,
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        finallyDelete();
+      } else if (result.isDenied) {
+        toast.success("Cancelled");
+      }
+    });
   }
 
   return (
@@ -125,7 +172,12 @@ const DynamicSession = () => {
                     <button className="btn btn-sm btn-secondary mx-1">
                       Update
                     </button>
-                    <button className="btn btn-sm btn-warning">Delete</button>
+                    <button
+                      className="btn btn-sm btn-warning"
+                      onClick={() => deleteSession(item._id)}
+                    >
+                      Delete
+                    </button>
                   </td>
                 </tr>
               ))}
