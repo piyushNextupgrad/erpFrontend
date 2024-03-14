@@ -13,6 +13,23 @@ const ClassManagement = () => {
   const [options, setoptions] = useState([]);
   const [options2, setoptions2] = useState([]);
   const [associatedClasses, setassociatedClasses] = useState([]);
+  const [formData, setFormData] = useState({
+    first_name: "",
+    last_name: "",
+    father_name: "",
+    mother_name: "",
+    father_mobile_no: "",
+    phone_no: "",
+    date_of_birth: "",
+    gender: "",
+    religion: "",
+    category: "",
+    last_school_attended: "",
+    address: "",
+    class_id: "",
+    session_id: "",
+    aadhar_card_no: "",
+  });
 
   useEffect(() => {
     getSession();
@@ -30,25 +47,28 @@ const ClassManagement = () => {
 
   useEffect(() => {
     if (selectboxData !== "") {
-      // const filteredData = sessionData.filter(
-      //   (item) => item._id == selectboxData
-      // );
-      // console.log("filteredData", filteredData);
-      // setassociatedClasses(filteredData);
       getClassesInsideSession();
     }
   }, [selectboxData]);
 
   useEffect(() => {
     if (associatedClasses.length) {
+      setselectboxData2("");
+
       const classes = associatedClasses.map((item) => ({
         value: item._id,
-        label: item.name,
+        label: item.name + " " + item.section,
       }));
 
       setoptions2(classes);
     }
   }, [associatedClasses]);
+
+  useEffect(() => {
+    if (selectboxData2 != "") {
+      fetchStudents();
+    }
+  }, [selectboxData2]);
 
   async function getSession() {
     try {
@@ -92,6 +112,75 @@ const ClassManagement = () => {
     }
   }
 
+  async function fetchStudents() {
+    try {
+      // const res = await axios.post()
+    } catch (err) {
+      toast.warning(err.message);
+    }
+  }
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  async function handleStudentCreation(e) {
+    e.preventDefault();
+
+    try {
+      console.log(formData);
+      const keys = Object.keys(formData);
+      const value = Object.values(formData);
+      if (keys.length === value.length) {
+        if (selectboxData != "") {
+          (formData.class_id = selectboxData2),
+            (formData.session_id = selectboxData);
+          const res = await axios.post(
+            process.env.NEXT_PUBLIC_SITE_URL + "/student/api/postStudent",
+            {
+              formData,
+            }
+          );
+          console.log(res);
+          if (res.data.success) {
+            toast.success("Student Added");
+            // formData.address = "";
+            // formData.category = "";
+            // formData.first_name = "";
+            // formData.last_name = "";
+            // formData.father_mobile_no = "";
+            // formData.phone_no = "";
+            // formData.religion = "";
+            // formData.social_category = "";
+            // formData.date_of_birth = "";
+            // formData.last_school_attended = "";
+            // formData.mother_name = "";
+            // formData.father_name = "";
+            // formData.gender = "";
+            // formData.class_id = "";
+            // formData.session_id = "";
+          } else {
+            toast.error("Something went wrong");
+          }
+        } else {
+          toast.warning("Please select a class");
+        }
+      } else {
+        toast.warning("Please fill out all the fields");
+      }
+    } catch (err) {
+      console.log("error", err);
+      if (err.request.response.includes("E11000")) {
+        toast.error("Student adhar already exists in system.");
+      } else {
+        toast.error(err.message);
+      }
+    }
+  }
   return (
     <>
       <div className="main">
@@ -116,6 +205,179 @@ const ClassManagement = () => {
                 onChange={handleSelectboxChange2}
                 placeholder="Select a class"
               />
+            ) : null}
+            {selectboxData2.length ? (
+              <form className="pt-5 row g-3" onSubmit={handleStudentCreation}>
+                <h2 className="mb-2">ADD STUDENT TO SELECTED CLASS</h2>
+                <div className="col-md-6">
+                  <input
+                    className="form-control"
+                    type="text"
+                    placeholder="First name"
+                    name="first_name"
+                    value={formData.first_name}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+                <div className="col-md-6">
+                  <input
+                    className="form-control"
+                    type="text"
+                    placeholder="Last name"
+                    name="last_name"
+                    value={formData.last_name}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+                <div className="col-md-6">
+                  <input
+                    className="form-control"
+                    type="text"
+                    placeholder="Father's name"
+                    name="father_name"
+                    value={formData.father_name}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+                <div className="col-md-6">
+                  <input
+                    className="form-control"
+                    type="text"
+                    placeholder="Mother's name"
+                    name="mother_name"
+                    value={formData.mother_name}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+                <div className="col-md-6">
+                  <input
+                    className="form-control"
+                    type="text"
+                    placeholder="Mobile Number"
+                    name="father_mobile_no"
+                    value={formData.father_mobile_no}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+                <div className="col-md-6">
+                  <input
+                    className="form-control"
+                    type="text"
+                    placeholder="Phone Number"
+                    name="phone_no"
+                    value={formData.phone_no}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+                <div className="col-md-6">
+                  <input
+                    className="form-control"
+                    type="date"
+                    placeholder="Date of Birth"
+                    name="date_of_birth"
+                    value={formData.date_of_birth}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+                <div className="col-md-6">
+                  <select
+                    className="form-control"
+                    id="gender"
+                    name="gender"
+                    value={formData.gender}
+                    onChange={handleChange}
+                    required
+                  >
+                    <option value="" disabled>
+                      Select gender
+                    </option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                  </select>
+                </div>
+                <div className="col-md-6">
+                  <select
+                    className="form-control"
+                    id="religion"
+                    name="religion"
+                    value={formData.religion}
+                    onChange={handleChange}
+                    required
+                  >
+                    <option value="" disabled>
+                      Select Religion
+                    </option>
+                    <option value="Hindu">Hindu</option>
+                    <option value="Muslim">Muslim</option>
+                    <option value="Sikh">Sikh</option>
+                    <option value="Jain">Jain</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+                <div className="col-md-6">
+                  <select
+                    className="form-control"
+                    id="category"
+                    name="category"
+                    value={formData.category}
+                    onChange={handleChange}
+                    required
+                  >
+                    <option value="" disabled>
+                      Select Category
+                    </option>
+                    <option value="General">General</option>
+                    <option value="Obc">Obc</option>
+                    <option value="Sc">Sc</option>
+                    <option value="St">St</option>
+                  </select>
+                </div>
+                <div className="col-md-6">
+                  <input
+                    className="form-control"
+                    type="text"
+                    placeholder="Last school attended"
+                    name="last_school_attended"
+                    value={formData.last_school_attended}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+                <div className="col-md-6">
+                  <input
+                    className="form-control"
+                    type="text"
+                    placeholder="Address"
+                    name="address"
+                    value={formData.address}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+                <div className="col-6">
+                  <input
+                    className="form-control "
+                    type="text"
+                    placeholder="Aadhar"
+                    name="aadhar_card_no"
+                    value={formData.aadhar_card_no}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+                <div className="col-6">
+                  <button type="submit" className="w-100 btn btn-warning col-6">
+                    Submit
+                  </button>
+                </div>
+              </form>
             ) : null}
           </div>
         </div>
