@@ -6,6 +6,7 @@ import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
 import { IoIosArrowForward, IoIosArrowDown } from "react-icons/io";
 import Link from "next/link";
+import Image from "next/image";
 
 function hamburger() {
   const [show, setShow] = useState(false);
@@ -59,10 +60,13 @@ function hamburger() {
 const Header = () => {
   return (
     <>
-      <Navbar className="bg-body-white navBar">
+      <Navbar className="bg-white navBar">
         <Container>
           <Link className="link" href="/">
-            <h3>ERP</h3>
+            <h3>
+              <Image src="/logo.png" width="40" height="40" />
+              <span className="logo">ERP</span>
+            </h3>
           </Link>
           {hamburger()}
         </Container>

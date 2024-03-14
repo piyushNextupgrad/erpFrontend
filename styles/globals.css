@@ -27,7 +27,7 @@ h5 {
 }
 .navBar {
   z-index: 10;
-  background-color: #edf2f9;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   width: 100vw;
   position: fixed !important;
   top: 0;
@@ -87,8 +87,14 @@ h5 {
 .link {
   text-decoration: none;
 }
+.logo {
+  font-weight: 600;
+}
+
 .card {
+  padding: 5px;
   transition: 0.4s;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
 }
 .card:hover {
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;

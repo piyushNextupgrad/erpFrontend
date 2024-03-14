@@ -9,7 +9,7 @@ function CardComp({ item }) {
         <Card.Title>
           <h5>{item.option}</h5>
         </Card.Title>
-        <Card.Text>{item.summary}</Card.Text>
+        <Card.Text className="summary my-3">{item.summary}</Card.Text>
         <Button className="my-2 w-100 btn-sm btn2">
           <Link className="cardLink" href={item.links[0]}>
             {item.btn[0]}

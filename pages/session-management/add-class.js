@@ -113,6 +113,23 @@ const AddClass = () => {
     }
   }
 
+  async function deleteClass(id) {
+    try {
+      const res = await axios.post(
+        process.env.NEXT_PUBLIC_SITE_URL + "/class/api/deleteClass",
+        {
+          id: id,
+        }
+      );
+      if (res.data.success) {
+        toast.success("class deleted");
+        getClassesInsideSession();
+      }
+    } catch (err) {
+      toast.error(err.message);
+    }
+  }
+
   return (
     <>
       <div className="main">
@@ -126,38 +143,50 @@ const AddClass = () => {
             />
           </div>
           <div className=" mt-5">
-            <h2 className="mb-5">CREATE AND ADD CLASS TO SELECTED SESSION</h2>
+            <h2 className="mb-5">ADD CLASS TO SELECTED SESSION</h2>
             <form onSubmit={handleFormSubmit}>
-              <input
-                className="form-control my-2 "
-                type="text"
-                placeholder="Name of Class"
-                value={className}
-                required
-                onChange={(e) => setClassName(e.target.value)}
-              />
-              <input
-                className="form-control my-2"
-                type="text"
-                placeholder="Class Number"
-                value={classNumber}
-                required
-                onChange={(e) => setClassNumber(e.target.value)}
-              />
-              <input
-                className="form-control my-2 "
-                type="text"
-                placeholder="Class Section"
-                value={classSection}
-                required
-                onChange={(e) => setClassSection(e.target.value)}
-              />
-              <button
-                type="submit"
-                className="form-control btn btn-sms my-2 btn-warning"
-              >
-                Create
-              </button>
+              <div className="row">
+                <div className="col-6">
+                  <input
+                    className="form-control my-2 "
+                    type="text"
+                    placeholder="Name of Class"
+                    value={className}
+                    required
+                    onChange={(e) => setClassName(e.target.value)}
+                  />
+                </div>
+                <div className="col-6">
+                  <input
+                    className="form-control my-2"
+                    type="text"
+                    placeholder="Class Number"
+                    value={classNumber}
+                    required
+                    onChange={(e) => setClassNumber(e.target.value)}
+                  />
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-6">
+                  <input
+                    className="form-control my-2 "
+                    type="text"
+                    placeholder="Class Section"
+                    value={classSection}
+                    required
+                    onChange={(e) => setClassSection(e.target.value)}
+                  />
+                </div>
+                <div className="col-6">
+                  <button
+                    type="submit"
+                    className="form-control btn btn-sms my-2 btn-warning "
+                  >
+                    Create
+                  </button>
+                </div>
+              </div>
             </form>
           </div>
           <div className=" mt-5">
@@ -184,7 +213,10 @@ const AddClass = () => {
                           <button className="btn btn-sm btn-secondary mx-1">
                             Update
                           </button>
-                          <button className="btn btn-sm btn-warning">
+                          <button
+                            className="btn btn-sm btn-warning"
+                            onClick={() => deleteClass(item._id)}
+                          >
                             Delete
                           </button>
                         </td>

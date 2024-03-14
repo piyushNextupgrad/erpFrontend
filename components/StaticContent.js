@@ -3,7 +3,7 @@ export const studentManagement = [
     option: "Session And Class Management",
     summary:
       "Use this module to create and manage sessions and to create and manage classes.",
-    btn: ["create update delete sessions", "create and manage classes"],
+    btn: ["Create or manage sessions", "create and manage classes"],
     links: [
       "/session-management/create-session",
       "/session-management/add-class",
@@ -17,13 +17,10 @@ export const studentManagement = [
   // },
   {
     option: "student management",
-    summary: "use this module to create and manage students",
-    btn: ["create student data", "update student data", "delete student data"],
-    links: [
-      "/student-management",
-      "/student-management",
-      "/student-management",
-    ],
+    summary:
+      "Use this module to add new students to classes , update student data , delete and manage student data",
+    btn: ["Add Student", "Update or delete student "],
+    links: ["/student-management", "/student-management/delete-student"],
   },
   {
     option: "fee management",

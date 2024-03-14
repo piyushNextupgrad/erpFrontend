@@ -6,7 +6,10 @@ import { toast } from "sonner";
 import { useSelector, useDispatch } from "react-redux";
 import { change } from "../../store/slice";
 import axios from "axios";
-const ClassManagement = () => {
+import Image from "next/image";
+import img from "../../public/class.svg";
+
+const ClassManagement = ({ base64 }) => {
   const [selectboxData, setselectboxData] = useState("");
   const [selectboxData2, setselectboxData2] = useState("");
   const [sessionData, setsessionData] = useState([]);
@@ -66,7 +69,6 @@ const ClassManagement = () => {
 
   useEffect(() => {
     if (selectboxData2 != "") {
-      fetchStudents();
     }
   }, [selectboxData2]);
 
@@ -112,14 +114,6 @@ const ClassManagement = () => {
     }
   }
 
-  async function fetchStudents() {
-    try {
-      // const res = await axios.post()
-    } catch (err) {
-      toast.warning(err.message);
-    }
-  }
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({
@@ -148,21 +142,23 @@ const ClassManagement = () => {
           console.log(res);
           if (res.data.success) {
             toast.success("Student Added");
-            // formData.address = "";
-            // formData.category = "";
-            // formData.first_name = "";
-            // formData.last_name = "";
-            // formData.father_mobile_no = "";
-            // formData.phone_no = "";
-            // formData.religion = "";
-            // formData.social_category = "";
-            // formData.date_of_birth = "";
-            // formData.last_school_attended = "";
-            // formData.mother_name = "";
-            // formData.father_name = "";
-            // formData.gender = "";
-            // formData.class_id = "";
-            // formData.session_id = "";
+            setFormData({
+              first_name: "",
+              last_name: "",
+              father_name: "",
+              mother_name: "",
+              father_mobile_no: "",
+              phone_no: "",
+              date_of_birth: "",
+              gender: "",
+              religion: "",
+              category: "",
+              last_school_attended: "",
+              address: "",
+              class_id: "",
+              session_id: "",
+              aadhar_card_no: "",
+            });
           } else {
             toast.error("Something went wrong");
           }
@@ -183,9 +179,9 @@ const ClassManagement = () => {
   }
   return (
     <>
-      <div className="main">
+      <div className="main student-page">
         <div className="container">
-          <div className="my-3">
+          <div className="my-3 ">
             <h2 className="mb-2">STUDENT MANAGEMENT</h2>
           </div>
           <p>Select a session then a class to load all associated students.</p>
@@ -378,7 +374,11 @@ const ClassManagement = () => {
                   </button>
                 </div>
               </form>
-            ) : null}
+            ) : (
+              <div className="text-center">
+                <Image src={img} width={600} height={400} />
+              </div>
+            )}
           </div>
         </div>
       </div>
