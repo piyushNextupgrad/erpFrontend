@@ -202,6 +202,7 @@ const ClassManagement = () => {
             {options.length ? (
               <Select
                 options={options}
+                className="shadow"
                 onChange={handleSelectboxChange}
                 placeholder="Select a session"
               />
@@ -210,6 +211,7 @@ const ClassManagement = () => {
           <div className="my-3">
             {options2.length ? (
               <Select
+                className="shadow"
                 options={options2}
                 onChange={handleSelectboxChange2}
                 placeholder="Select a class"
@@ -219,7 +221,7 @@ const ClassManagement = () => {
             {students?.all_students?.length > 0 ? (
               <>
                 <h2 className=" mt-5 mb-1">STUDENTS </h2>
-                <Table className="my-5" responsive>
+                <Table className="my-5 shadow" responsive>
                   <thead>
                     <tr>
                       <th>No</th>
@@ -263,11 +265,7 @@ const ClassManagement = () => {
                   </tbody>
                 </Table>
               </>
-            ) : (
-              <div className="text-center">
-                <Image src="/cls2.svg" width={600} height={300} />
-              </div>
-            )}
+            ) : null}
           </div>
         </div>
       </div>

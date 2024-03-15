@@ -189,6 +189,7 @@ const ClassManagement = ({ base64 }) => {
           <div className="my-3">
             {options.length ? (
               <Select
+                className="shadow"
                 options={options}
                 onChange={handleSelectboxChange}
                 placeholder="Select a session"
@@ -198,17 +199,18 @@ const ClassManagement = ({ base64 }) => {
           <div className="my-3">
             {options2.length ? (
               <Select
+                className="shadow"
                 options={options2}
                 onChange={handleSelectboxChange2}
                 placeholder="Select a class"
               />
             ) : null}
             {selectboxData2.length ? (
-              <form className="pt-5 row g-3" onSubmit={handleStudentCreation}>
+              <form className="pt-2  row g-3" onSubmit={handleStudentCreation}>
                 <h2 className="mb-2">ADD STUDENT TO SELECTED CLASS</h2>
                 <div className="col-md-6">
                   <input
-                    className="form-control"
+                    className="form-control shadow"
                     type="text"
                     placeholder="First name"
                     name="first_name"
@@ -219,7 +221,7 @@ const ClassManagement = ({ base64 }) => {
                 </div>
                 <div className="col-md-6">
                   <input
-                    className="form-control"
+                    className="form-control shadow"
                     type="text"
                     placeholder="Last name"
                     name="last_name"
@@ -230,7 +232,7 @@ const ClassManagement = ({ base64 }) => {
                 </div>
                 <div className="col-md-6">
                   <input
-                    className="form-control"
+                    className="form-control shadow"
                     type="text"
                     placeholder="Father's name"
                     name="father_name"
@@ -241,7 +243,7 @@ const ClassManagement = ({ base64 }) => {
                 </div>
                 <div className="col-md-6">
                   <input
-                    className="form-control"
+                    className="form-control shadow"
                     type="text"
                     placeholder="Mother's name"
                     name="mother_name"
@@ -252,7 +254,7 @@ const ClassManagement = ({ base64 }) => {
                 </div>
                 <div className="col-md-6">
                   <input
-                    className="form-control"
+                    className="form-control shadow"
                     type="text"
                     placeholder="Mobile Number"
                     name="father_mobile_no"
@@ -263,7 +265,7 @@ const ClassManagement = ({ base64 }) => {
                 </div>
                 <div className="col-md-6">
                   <input
-                    className="form-control"
+                    className="form-control shadow"
                     type="text"
                     placeholder="Phone Number"
                     name="phone_no"
@@ -274,7 +276,7 @@ const ClassManagement = ({ base64 }) => {
                 </div>
                 <div className="col-md-6">
                   <input
-                    className="form-control"
+                    className="form-control shadow"
                     type="date"
                     placeholder="Date of Birth"
                     name="date_of_birth"
@@ -285,7 +287,7 @@ const ClassManagement = ({ base64 }) => {
                 </div>
                 <div className="col-md-6">
                   <select
-                    className="form-control"
+                    className="form-control shadow"
                     id="gender"
                     name="gender"
                     value={formData.gender}
@@ -301,7 +303,7 @@ const ClassManagement = ({ base64 }) => {
                 </div>
                 <div className="col-md-6">
                   <select
-                    className="form-control"
+                    className="form-control shadow"
                     id="religion"
                     name="religion"
                     value={formData.religion}
@@ -320,7 +322,7 @@ const ClassManagement = ({ base64 }) => {
                 </div>
                 <div className="col-md-6">
                   <select
-                    className="form-control"
+                    className="form-control shadow"
                     id="category"
                     name="category"
                     value={formData.category}
@@ -338,7 +340,7 @@ const ClassManagement = ({ base64 }) => {
                 </div>
                 <div className="col-md-6">
                   <input
-                    className="form-control"
+                    className="form-control shadow"
                     type="text"
                     placeholder="Last school attended"
                     name="last_school_attended"
@@ -349,7 +351,7 @@ const ClassManagement = ({ base64 }) => {
                 </div>
                 <div className="col-md-6">
                   <input
-                    className="form-control"
+                    className="form-control shadow"
                     type="text"
                     placeholder="Address"
                     name="address"
@@ -360,7 +362,7 @@ const ClassManagement = ({ base64 }) => {
                 </div>
                 <div className="col-6">
                   <input
-                    className="form-control "
+                    className="form-control shadow"
                     type="text"
                     placeholder="Aadhar"
                     name="aadhar_card_no"
@@ -375,11 +377,7 @@ const ClassManagement = ({ base64 }) => {
                   </button>
                 </div>
               </form>
-            ) : (
-              <div className="text-center">
-                <Image src={img} width={600} height={400} />
-              </div>
-            )}
+            ) : null}
           </div>
         </div>
       </div>

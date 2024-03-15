@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { useSelector, useDispatch } from "react-redux";
 import { change } from "../../store/slice";
 import Swal from "sweetalert2";
+import Image from "next/image";
 
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -108,6 +109,11 @@ const AddClass = () => {
       console.log("classes", res.data.data);
       if (res.data.success) {
         setassociatedClasses(res.data.data);
+        if (!(res.data.data.length > 0)) {
+          toast.warning("No classes were found in the session.");
+        } else {
+          toast.success("Classes found in the selected session.");
+        }
       }
     } catch (err) {
       toast.error(err.message);
@@ -209,43 +215,45 @@ const AddClass = () => {
               </div>
             </form>
           </div>
-          <div className=" mt-5">
-            <h2 className="mb-5">UPDATE OR REMOVE CLASSES</h2>
-            <Table responsive>
-              <thead>
-                <tr>
-                  <th>No</th>
-                  <th>Class Name</th>
-                  <th>Class</th>
-                  <th>Section</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {associatedClasses.length
-                  ? associatedClasses.map((item, index) => (
-                      <tr key={item._id}>
-                        <td>{index + 1}</td>
-                        <td>{item.name}</td>
-                        <td>{item.className}</td>
-                        <td>{item.section}</td>
-                        <td>
-                          <button className="btn btn-sm btn-secondary mx-1">
-                            Update
-                          </button>
-                          <button
-                            className="btn btn-sm btn-warning"
-                            onClick={() => deleteClass(item._id)}
-                          >
-                            Delete
-                          </button>
-                        </td>
-                      </tr>
-                    ))
-                  : null}
-              </tbody>
-            </Table>
-          </div>
+          {associatedClasses.length > 0 ? (
+            <div className=" mt-5">
+              <h2 className="mb-5">UPDATE OR REMOVE CLASSES</h2>
+              <Table responsive>
+                <thead>
+                  <tr>
+                    <th>No</th>
+                    <th>Class Name</th>
+                    <th>Class</th>
+                    <th>Section</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {associatedClasses.length
+                    ? associatedClasses.map((item, index) => (
+                        <tr key={item._id}>
+                          <td>{index + 1}</td>
+                          <td>{item.name}</td>
+                          <td>{item.className}</td>
+                          <td>{item.section}</td>
+                          <td>
+                            <button className="btn btn-sm btn-secondary mx-1">
+                              Update
+                            </button>
+                            <button
+                              className="btn btn-sm btn-warning"
+                              onClick={() => deleteClass(item._id)}
+                            >
+                              Delete
+                            </button>
+                          </td>
+                        </tr>
+                      ))
+                    : null}
+                </tbody>
+              </Table>
+            </div>
+          ) : null}
         </div>
       </div>
     </>

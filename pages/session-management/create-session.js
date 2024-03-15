@@ -125,7 +125,6 @@ const DynamicSession = () => {
           /> */}
           <Form className={styles.formStyle}>
             <Form.Group className="mb-3" controlId="formGroupSessionname">
-              <Form.Label>Session Name</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Enter session name"
@@ -134,7 +133,6 @@ const DynamicSession = () => {
               />
             </Form.Group>
             <Form.Group className="mb-3" controlId="formGroupDate">
-              <Form.Label>Date</Form.Label>
               <Form.Control
                 type="date"
                 placeholder="Enter date"
@@ -143,7 +141,7 @@ const DynamicSession = () => {
               />
             </Form.Group>
             <button
-              className="btn btn-sm btn-warning"
+              className="btn btn-sm btn-danger w-100"
               type="button"
               onClick={createSession}
             >
@@ -152,7 +150,7 @@ const DynamicSession = () => {
           </Form>
         </div>
         <div className="container mt-5">
-          <h2 className="mb-5">MANAGE SESSIONS</h2>
+          <h2 className="mb-3">MANAGE SESSIONS</h2>
           <Table responsive>
             <thead>
               <tr>
