@@ -60,11 +60,11 @@ function hamburger() {
 const Header = () => {
   return (
     <>
-      <Navbar className="bg-white navBar">
+      <Navbar className="bg-light navBar">
         <Container>
           <Link className="link" href="/">
             <h3>
-              <Image src="/logo.png" width="40" height="40" />
+              {/* <Image src="/logo.png" width="40" height="40" /> */}
               <span className="logo">ERP</span>
             </h3>
           </Link>

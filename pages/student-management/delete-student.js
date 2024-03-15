@@ -9,6 +9,7 @@ import axios from "axios";
 import Image from "next/image";
 
 const ClassManagement = () => {
+  const dispatch = useDispatch();
   const [selectboxData, setselectboxData] = useState("");
   const [selectboxData2, setselectboxData2] = useState("");
   const [sessionData, setsessionData] = useState([]);
@@ -81,6 +82,7 @@ const ClassManagement = () => {
 
   async function getClassesInsideSession() {
     try {
+      dispatch(change(true));
       const res = await axios.post(
         process.env.NEXT_PUBLIC_SITE_URL + "/class/api/getClassBySession",
         {
@@ -89,16 +91,21 @@ const ClassManagement = () => {
       );
       console.log("classes", res.data.data);
       if (res.data.success) {
+        dispatch(change(false));
         console.log("class data", res.data.data);
         setassociatedClasses(res.data.data);
+      } else {
+        dispatch(change(false));
       }
     } catch (err) {
+      dispatch(change(false));
       toast.error(err.message);
     }
   }
 
   async function fetchStudents() {
     try {
+      dispatch(change(true));
       const res = await axios.post(
         process.env.NEXT_PUBLIC_SITE_URL +
           "/student/api/findStudentBySessionAndClass",
@@ -109,10 +116,14 @@ const ClassManagement = () => {
       );
       console.log("students", res);
       if (res.data.success) {
+        dispatch(change(false));
         toast.success("students found");
         setstudents(res.data.data[0]);
+      } else {
+        dispatch(change(false));
       }
     } catch (err) {
+      dispatch(change(false));
       toast.warning(err.message);
     }
   }
@@ -128,8 +139,27 @@ const ClassManagement = () => {
   function updateStudent(id) {
     console.log(id);
   }
-  function deleteStudent(id) {
-    console.log(id);
+  async function deleteStudent(id) {
+    try {
+      dispatch(change(true));
+      const res = await axios.post(
+        process.env.NEXT_PUBLIC_SITE_URL + "/student/api/deleteStudent",
+        {
+          id: id,
+        }
+      );
+      if (res.data.success) {
+        dispatch(change(false));
+        fetchStudents();
+        toast.success("student deleted");
+      } else {
+        dispatch(change(false));
+        toast.error("something went wrong");
+      }
+    } catch (err) {
+      dispatch(change(false));
+      toast.error(err.message);
+    }
   }
   return (
     <>

@@ -1,9 +1,13 @@
 .main {
-  /* background-color: #edf2f9; */
+  position: relative; /* Ensure proper positioning of overlay */
   padding-top: 10em;
   padding-left: 2.5rem;
   padding-right: 1rem;
+  background-image: url("/white-back.jpg");
+  background-position: center;
+  background-size: cover;
 }
+
 /* .card {
   justify-content: center;
   display: flex;
