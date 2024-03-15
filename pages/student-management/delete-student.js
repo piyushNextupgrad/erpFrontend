@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { change } from "../../store/slice";
 import axios from "axios";
 import Image from "next/image";
+import Swal from "sweetalert2";
 
 const ClassManagement = () => {
   const dispatch = useDispatch();
@@ -146,27 +147,46 @@ const ClassManagement = () => {
   function updateStudent(id) {
     console.log(id);
   }
-  async function deleteStudent(id) {
-    try {
-      dispatch(change(true));
-      const res = await axios.post(
-        process.env.NEXT_PUBLIC_SITE_URL + "/student/api/deleteStudent",
-        {
-          id: id,
+  function deleteStudent(id) {
+    async function finallyDelete() {
+      try {
+        dispatch(change(true));
+        const res = await axios.post(
+          process.env.NEXT_PUBLIC_SITE_URL + "/student/api/deleteStudent",
+          {
+            id: id,
+          }
+        );
+        if (res.data.success) {
+          dispatch(change(false));
+          fetchStudents();
+          toast.success("student deleted");
+        } else {
+          dispatch(change(false));
+          toast.error("something went wrong");
         }
-      );
-      if (res.data.success) {
+      } catch (err) {
         dispatch(change(false));
-        fetchStudents();
-        toast.success("student deleted");
-      } else {
-        dispatch(change(false));
-        toast.error("something went wrong");
+        toast.error(err.message);
       }
-    } catch (err) {
-      dispatch(change(false));
-      toast.error(err.message);
     }
+
+    Swal.fire({
+      title: "Warning",
+      text: "Are you sure you want to delete this student. All the data associated with this student will be lost.",
+      showDenyButton: true,
+      icon: "warning",
+
+      confirmButtonText: "Yes Delete",
+      denyButtonText: `Don't Delete`,
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        finallyDelete();
+      } else if (result.isDenied) {
+        toast.success("Cancelled");
+      }
+    });
   }
   return (
     <>

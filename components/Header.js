@@ -74,7 +74,7 @@ const Header = () => {
         <Container>
           <Link className="link" href="/">
             <h3>
-              {/* <Image src="/logo.png" width="40" height="40" /> */}
+              <Image src="/gear.png" width="40" height="30" />
               <span className="logo">ERP</span>
             </h3>
           </Link>
