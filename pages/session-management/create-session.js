@@ -9,6 +9,7 @@ import moment from "moment";
 import { useSelector, useDispatch } from "react-redux";
 import { change } from "../../store/slice";
 import Swal from "sweetalert2";
+import { Popup } from "@/components/popups/SessionPopUp";
 
 const DynamicSession = () => {
   const router = useRouter();
@@ -17,6 +18,9 @@ const DynamicSession = () => {
   const [pathname, setpathname] = useState("");
   const [sessionname, setSessionname] = useState("");
   const [date, setDate] = useState("");
+  const [id, setid] = useState("");
+  const [obj, setobj] = useState({});
+  const [toggle, settoggle] = useState(false);
 
   useEffect(() => {
     getSession();
@@ -112,8 +116,17 @@ const DynamicSession = () => {
     });
   }
 
+  async function updateSession(id, name) {
+    console.log(id);
+    console.log(name);
+    settoggle(true);
+    setid(id);
+    setobj(name);
+  }
+
   return (
     <>
+      <Popup toggle={toggle} id={id} obj={obj} settoggle={settoggle} />
       <div className="main">
         <div className={`container py-4 ${styles.createSession}`}>
           <h2 className="mb-5">CREATE SESSIONS</h2>
@@ -166,7 +179,10 @@ const DynamicSession = () => {
                   <td>{item.sessionName}</td>
                   <td>{moment(item.date).format("MMM Do YYYY")}</td>
                   <td>
-                    <button className="btn btn-sm btn-secondary mx-1">
+                    <button
+                      className="btn btn-sm btn-secondary mx-1"
+                      onClick={() => updateSession(item._id, item)}
+                    >
                       Update
                     </button>
                     <button
