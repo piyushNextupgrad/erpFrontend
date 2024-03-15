@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import styles from "../../styles/session.module.css";
 import Form from "react-bootstrap/Form";
 import { toast } from "sonner";
-import axios from "axios";
+import axiosInstance from "@/axios/axios";
 import Table from "react-bootstrap/Table";
 import moment from "moment";
 import { useSelector, useDispatch } from "react-redux";
@@ -43,8 +43,8 @@ const DynamicSession = () => {
       const formData = new FormData();
       formData.append("sessionName", sessionname);
       formData.append("date", date);
-      const data = await axios.post(
-        process.env.NEXT_PUBLIC_SITE_URL + "/session/api/createSession",
+      const data = await axiosInstance.post(
+        "/session/api/createSession",
         formData
       );
 
@@ -61,12 +61,14 @@ const DynamicSession = () => {
   }
 
   async function getSession() {
-    const res = await axios.get(
-      process.env.NEXT_PUBLIC_SITE_URL + "/session/api/getSessions"
-    );
-    if (res?.data?.success) {
-      setsessionData(res.data.data);
-      console.log("sessions", res);
+    try {
+      const res = await axiosInstance.get("/session/api/getSessions");
+      if (res?.data?.success) {
+        setsessionData(res.data.data);
+        console.log("sessions", res);
+      }
+    } catch (err) {
+      toast.error(err.message);
     }
   }
 
@@ -76,12 +78,9 @@ const DynamicSession = () => {
     async function finallyDelete() {
       try {
         dispatch(change(true));
-        const res = await axios.post(
-          process.env.NEXT_PUBLIC_SITE_URL + "/session/api/deleteSession",
-          {
-            id: id,
-          }
-        );
+        const res = await axiosInstance.post("/session/api/deleteSession", {
+          id: id,
+        });
         if (res.data.success) {
           dispatch(change(false));
           toast.success("session deleted");

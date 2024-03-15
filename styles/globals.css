@@ -13,6 +13,7 @@ body {
   background-image: url("/white-back2.jpg");
   background-position: center;
   background-size: cover;
+
   background-repeat: repeat-y;
 }
 .main {

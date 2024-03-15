@@ -5,7 +5,7 @@ import moment from "moment";
 import { toast } from "sonner";
 import { useSelector, useDispatch } from "react-redux";
 import { change } from "../../store/slice";
-import axios from "axios";
+import axiosInstance from "@/axios/axios";
 import Image from "next/image";
 import img from "../../public/class.svg";
 
@@ -74,9 +74,7 @@ const ClassManagement = ({ base64 }) => {
 
   async function getSession() {
     try {
-      const res = await axios.get(
-        process.env.NEXT_PUBLIC_SITE_URL + "/session/api/getSessions"
-      );
+      const res = await axiosInstance.get("/session/api/getSessions");
       if (res?.data?.success) {
         console.log("session data", res.data.data);
         setsessionData(res.data.data);
@@ -99,12 +97,9 @@ const ClassManagement = ({ base64 }) => {
 
   async function getClassesInsideSession() {
     try {
-      const res = await axios.post(
-        process.env.NEXT_PUBLIC_SITE_URL + "/class/api/getClassBySession",
-        {
-          sessionId: selectboxData,
-        }
-      );
+      const res = await axiosInstance.post("/class/api/getClassBySession", {
+        sessionId: selectboxData,
+      });
       console.log("classes", res.data.data);
       if (res.data.success) {
         console.log("class data", res.data.data);
@@ -134,12 +129,9 @@ const ClassManagement = ({ base64 }) => {
         if (selectboxData != "") {
           (formData.class_id = selectboxData2),
             (formData.session_id = selectboxData);
-          const res = await axios.post(
-            process.env.NEXT_PUBLIC_SITE_URL + "/student/api/postStudent",
-            {
-              formData,
-            }
-          );
+          const res = await axiosInstance.post("/student/api/postStudent", {
+            formData,
+          });
           console.log(res);
           if (res.data.success) {
             toast.success("Student Added");

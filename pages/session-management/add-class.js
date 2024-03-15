@@ -6,9 +6,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { change } from "../../store/slice";
 import Swal from "sweetalert2";
 import Image from "next/image";
-
+import axiosInstance from "@/axios/axios";
 import { useState, useEffect } from "react";
-import axios from "axios";
+
 const AddClass = () => {
   const dispatch = useDispatch();
   const [sessionData, setsessionData] = useState([]);
@@ -47,9 +47,7 @@ const AddClass = () => {
 
   async function getSession() {
     try {
-      const res = await axios.get(
-        process.env.NEXT_PUBLIC_SITE_URL + "/session/api/getSessions"
-      );
+      const res = await axiosInstance.get("/session/api/getSessions");
       if (res?.data?.success) {
         setsessionData(res.data.data);
 
@@ -75,8 +73,8 @@ const AddClass = () => {
         formData.append("className", classNumber);
         formData.append("section", classSection);
         formData.append("session", selectboxData);
-        const result = await axios.post(
-          process.env.NEXT_PUBLIC_SITE_URL + "/class/api/createClass",
+        const result = await axiosInstance.post(
+          "/class/api/createClass",
           formData
         );
         console.log(result);
@@ -100,12 +98,9 @@ const AddClass = () => {
 
   async function getClassesInsideSession() {
     try {
-      const res = await axios.post(
-        process.env.NEXT_PUBLIC_SITE_URL + "/class/api/getClassBySession",
-        {
-          sessionId: selectboxData,
-        }
-      );
+      const res = await axiosInstance.post("/class/api/getClassBySession", {
+        sessionId: selectboxData,
+      });
       console.log("classes", res.data.data);
       if (res.data.success) {
         setassociatedClasses(res.data.data);
@@ -123,12 +118,9 @@ const AddClass = () => {
   function deleteClass(id) {
     async function finallyDelete() {
       try {
-        const res = await axios.post(
-          process.env.NEXT_PUBLIC_SITE_URL + "/class/api/deleteClass",
-          {
-            id: id,
-          }
-        );
+        const res = await axiosInstance.post("/class/api/deleteClass", {
+          id: id,
+        });
         if (res.data.success) {
           toast.success("class deleted");
           getClassesInsideSession();

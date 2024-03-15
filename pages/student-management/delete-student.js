@@ -5,7 +5,7 @@ import moment from "moment";
 import { toast } from "sonner";
 import { useSelector, useDispatch } from "react-redux";
 import { change } from "../../store/slice";
-import axios from "axios";
+import axiosInstance from "@/axios/axios";
 import Image from "next/image";
 import Swal from "sweetalert2";
 
@@ -65,9 +65,7 @@ const ClassManagement = () => {
 
   async function getSession() {
     try {
-      const res = await axios.get(
-        process.env.NEXT_PUBLIC_SITE_URL + "/session/api/getSessions"
-      );
+      const res = await axiosInstance.get("/session/api/getSessions");
       if (res?.data?.success) {
         console.log("session data", res.data.data);
         setsessionData(res.data.data);
@@ -91,12 +89,9 @@ const ClassManagement = () => {
   async function getClassesInsideSession() {
     try {
       dispatch(change(true));
-      const res = await axios.post(
-        process.env.NEXT_PUBLIC_SITE_URL + "/class/api/getClassBySession",
-        {
-          sessionId: selectboxData,
-        }
-      );
+      const res = await axiosInstance.post("/class/api/getClassBySession", {
+        sessionId: selectboxData,
+      });
 
       if (res.data.success) {
         dispatch(change(false));
@@ -114,7 +109,7 @@ const ClassManagement = () => {
   async function fetchStudents() {
     try {
       dispatch(change(true));
-      const res = await axios.post(
+      const res = await axiosInstance.post(
         process.env.NEXT_PUBLIC_SITE_URL +
           "/student/api/findStudentBySessionAndClass",
         {
@@ -151,12 +146,9 @@ const ClassManagement = () => {
     async function finallyDelete() {
       try {
         dispatch(change(true));
-        const res = await axios.post(
-          process.env.NEXT_PUBLIC_SITE_URL + "/student/api/deleteStudent",
-          {
-            id: id,
-          }
-        );
+        const res = await axiosInstance.post("/student/api/deleteStudent", {
+          id: id,
+        });
         if (res.data.success) {
           dispatch(change(false));
           fetchStudents();
