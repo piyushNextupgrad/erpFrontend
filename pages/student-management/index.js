@@ -12,6 +12,7 @@ import img from "../../public/class.svg";
 const ClassManagement = ({ base64 }) => {
   const [selectboxData, setselectboxData] = useState("");
   const [selectboxData2, setselectboxData2] = useState("");
+  const [pageCounter, setpageCounter] = useState(0);
   const [sessionData, setsessionData] = useState([]);
   const [options, setoptions] = useState([]);
   const [options2, setoptions2] = useState([]);
@@ -55,7 +56,7 @@ const ClassManagement = ({ base64 }) => {
   }, [selectboxData]);
 
   useEffect(() => {
-    if (associatedClasses.length) {
+    if (associatedClasses.length > 0) {
       setselectboxData2("");
 
       const classes = associatedClasses.map((item) => ({
@@ -64,13 +65,12 @@ const ClassManagement = ({ base64 }) => {
       }));
 
       setoptions2(classes);
+    } else if (!associatedClasses.length > 0 && pageCounter != 0) {
+      setoptions2([]);
+      setselectboxData2([]);
+      toast.warning("There are no classes associated with this session.");
     }
   }, [associatedClasses]);
-
-  useEffect(() => {
-    if (selectboxData2 != "") {
-    }
-  }, [selectboxData2]);
 
   async function getSession() {
     try {
@@ -80,6 +80,7 @@ const ClassManagement = ({ base64 }) => {
       if (res?.data?.success) {
         console.log("session data", res.data.data);
         setsessionData(res.data.data);
+        setpageCounter(1);
 
         console.log("sessions", res);
       }

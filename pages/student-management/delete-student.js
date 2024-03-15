@@ -12,6 +12,7 @@ const ClassManagement = () => {
   const dispatch = useDispatch();
   const [selectboxData, setselectboxData] = useState("");
   const [selectboxData2, setselectboxData2] = useState("");
+  const [pageCounter, setpageCounter] = useState(0);
   const [sessionData, setsessionData] = useState([]);
   const [options, setoptions] = useState([]);
   const [options2, setoptions2] = useState([]);
@@ -38,8 +39,9 @@ const ClassManagement = () => {
   }, [selectboxData]);
 
   useEffect(() => {
-    if (associatedClasses.length) {
+    if (associatedClasses.length > 0) {
       setselectboxData2("");
+      setstudents({ all_students: [] });
 
       const classes = associatedClasses.map((item) => ({
         value: item._id,
@@ -47,6 +49,10 @@ const ClassManagement = () => {
       }));
 
       setoptions2(classes);
+    } else if (!associatedClasses.length > 0 && pageCounter != 0) {
+      setoptions2([]);
+      setstudents({ all_students: [] });
+      toast.warning("There are no classes associated with this session.");
     }
   }, [associatedClasses]);
 
@@ -64,6 +70,7 @@ const ClassManagement = () => {
       if (res?.data?.success) {
         console.log("session data", res.data.data);
         setsessionData(res.data.data);
+        setpageCounter(1);
 
         console.log("sessions", res);
       }
@@ -89,7 +96,7 @@ const ClassManagement = () => {
           sessionId: selectboxData,
         }
       );
-      console.log("classes", res.data.data);
+
       if (res.data.success) {
         dispatch(change(false));
         console.log("class data", res.data.data);
