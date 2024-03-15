@@ -4,6 +4,7 @@ import moment from "moment";
 import { toast } from "sonner";
 import { useSelector, useDispatch } from "react-redux";
 import { change } from "../../store/slice";
+import Swal from "sweetalert2";
 
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -113,21 +114,40 @@ const AddClass = () => {
     }
   }
 
-  async function deleteClass(id) {
-    try {
-      const res = await axios.post(
-        process.env.NEXT_PUBLIC_SITE_URL + "/class/api/deleteClass",
-        {
-          id: id,
+  function deleteClass(id) {
+    async function finallyDelete() {
+      try {
+        const res = await axios.post(
+          process.env.NEXT_PUBLIC_SITE_URL + "/class/api/deleteClass",
+          {
+            id: id,
+          }
+        );
+        if (res.data.success) {
+          toast.success("class deleted");
+          getClassesInsideSession();
         }
-      );
-      if (res.data.success) {
-        toast.success("class deleted");
-        getClassesInsideSession();
+      } catch (err) {
+        toast.error(err.message);
       }
-    } catch (err) {
-      toast.error(err.message);
     }
+
+    Swal.fire({
+      title: "Warning",
+      text: "Are you sure you want to delete this class. All the data and students associated with the class will be lost.",
+      showDenyButton: true,
+      icon: "warning",
+
+      confirmButtonText: "Yes Delete",
+      denyButtonText: `Don't Delete`,
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        finallyDelete();
+      } else if (result.isDenied) {
+        toast.success("Cancelled");
+      }
+    });
   }
 
   return (

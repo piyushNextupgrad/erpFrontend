@@ -166,7 +166,9 @@ const ClassManagement = () => {
       <div className="main">
         <div className="container">
           <div className="my-3">
-            <h2 className="mb-2">STUDENT MANAGEMENT</h2>
+            <h2 className="mb-2">
+              STUDENT MANAGEMENT - UPDATE AND DELETE STUDENTS
+            </h2>
           </div>
           <p>Select a session then a class to load all associated students.</p>
           <div className="my-3">

@@ -100,3 +100,16 @@ h5 {
 .card:hover {
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
+.scrollIcon > * {
+  color: #f2c010 !important;
+  font-size: 2.3rem;
+}
+.scrollIcon {
+  position: fixed;
+  bottom: 2.7rem;
+  right: 2.7rem;
+  font-size: 2.3rem;
+}
+.scrollIcon:hover {
+  cursor: pointer;
+}
