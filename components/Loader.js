@@ -14,7 +14,7 @@ const Loader = () => {
     <>
       {loader == true ? (
         <div className="loader">
-          <Spinner animation="border" role="status" variant="info"></Spinner>
+          <Spinner animation="grow" role="status" variant="info"></Spinner>
         </div>
       ) : null}
     </>

@@ -5,12 +5,20 @@ import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import { toast } from "sonner";
 import axiosInstance from "@/axios/axios";
+import { useEffect } from "react";
 
 const Login = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  useEffect(() => {
+    const token = localStorage.getItem("adminTokenErpApplication");
+    if (token) {
+      router.push("/");
+    }
+  }, []);
 
   const handleSubmit = async (event) => {
     event.preventDefault();

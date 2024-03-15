@@ -16,11 +16,14 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <div className={styles.overlay}></div>
-        <div className={styles.card}>
-          {studentManagement.map((item, index) => (
-            <CardComp item={item} key={index} />
-          ))}
+        <div className="container">
+          <h2 className="mb-5 text-end">WELCOME TO DASHBOARD</h2>
+
+          <div className={styles.card}>
+            {studentManagement.map((item, index) => (
+              <CardComp item={item} key={index} />
+            ))}
+          </div>
         </div>
       </main>
     </>
