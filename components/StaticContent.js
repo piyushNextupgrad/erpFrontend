@@ -19,8 +19,12 @@ export const studentManagement = [
     option: "student management",
     summary:
       "Use this module to add new students to classes , update student data , delete and manage student data",
-    btn: ["Add Student", "Update or delete student "],
-    links: ["/student-management", "/student-management/delete-student"],
+    btn: ["Add Student", "Update or delete student ", "Migrate students"],
+    links: [
+      "/student-management",
+      "/student-management/delete-student ",
+      "/student-management/migrate-student",
+    ],
   },
   {
     option: "fee management",

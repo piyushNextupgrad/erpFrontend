@@ -126,3 +126,22 @@ h5 {
   position: absolute;
   right: 2.3rem;
 }
+.tables-sidebyside {
+  justify-content: center;
+  gap: 20px;
+  margin-right: 20px;
+  margin-left: 20px;
+  display: flex;
+}
+.heading-section-migratePage {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.innerSpan {
+  align-items: center;
+  display: flex;
+  justify-content: flex-end;
+  gap: 30px;
+}

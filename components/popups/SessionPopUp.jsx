@@ -2,8 +2,15 @@ import { useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { useState } from "react";
+import { useMemo } from "react";
 
 export function Popup({ toggle, id, obj, settoggle }) {
+  const [newName, setnewName] = useState("");
+
+  useMemo(() => {
+    setnewName(obj.sessionName);
+  }, [obj.sessionName]);
+
   useEffect(() => {
     if (toggle == true) {
       setShow(true);
@@ -28,17 +35,24 @@ export function Popup({ toggle, id, obj, settoggle }) {
         keyboard={false}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Modal title</Modal.Title>
+          <Modal.Title>Update session</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          I will not close if you click outside me. Do not even try to press
-          escape key.
+          <p>Type the new name for session</p>
+          <form>
+            <input
+              value={newName}
+              type="text"
+              placeholder="sesion name"
+              className="form-control"
+            />
+          </form>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="primary">Understood</Button>
+          <Button variant="danger">Update</Button>
         </Modal.Footer>
       </Modal>
     </>
