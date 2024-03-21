@@ -174,6 +174,7 @@ const ClassManagement = () => {
         console.log("classObj", classObj);
 
         try {
+          dispatch(change(true));
           const res = await axiosInstance.post("/class/api/migrateClass", {
             sessionId: selectboxDataMigrate,
             students: migratedStudentsIdArr,
@@ -181,11 +182,21 @@ const ClassManagement = () => {
             classInfo: classObj,
           });
           console.log("migrate APi result", res);
+          if (res.data.success) {
+            dispatch(change(false));
+            toast.success("class migrated to new session");
+          } else {
+            dispatch(change(false));
+            toast.success(
+              "Class already exists for selected session. Cannot migrate please check the selected session."
+            );
+          }
         } catch (err) {
+          dispatch(change(false));
           toast.error(err.message);
         }
       } else {
-        toast.error("Please select a students to migrate into new session");
+        toast.error("Please select students to migrate into new session");
       }
     }
   }

@@ -28,10 +28,11 @@ export const studentManagement = [
   },
   {
     option: "fee management",
-    summary: "use this module to create and manage fee records",
-    btn: ["create student data", "update studne data", "delete student data"],
+    summary:
+      "Use this module to manage fees. Find Insert and view fees records",
+    btn: ["Insert Fees", "Update and Delete Fees"],
     links: [
-      "/session-management/create-session",
+      "/fees-management/",
       "/session-management/update-session",
       "/session-management/delete-session",
     ],
