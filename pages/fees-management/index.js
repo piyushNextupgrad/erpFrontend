@@ -8,6 +8,7 @@ import { change } from "../../store/slice";
 import axiosInstance from "@/axios/axios";
 import Image from "next/image";
 import Swal from "sweetalert2";
+import { Popup } from "@/components/popups/InsertFeePopup";
 
 const ClassManagement = () => {
   const dispatch = useDispatch();
@@ -21,6 +22,7 @@ const ClassManagement = () => {
   const [students, setstudents] = useState([]);
   //
   const [fees, setfees] = useState([]);
+  const [toggle, settoggle] = useState(false);
   useEffect(() => {
     getSession();
   }, []);
@@ -158,8 +160,13 @@ const ClassManagement = () => {
     }
   }
 
+  function triggerPopup() {
+    settoggle(true);
+  }
+
   return (
     <>
+      <Popup toggle={toggle} settoggle={settoggle} />
       <div className="main">
         <div className="container">
           <div className="my-3">
@@ -268,6 +275,14 @@ const ClassManagement = () => {
                   </tbody>
                 </Table>
               </>
+            ) : null}
+            {fees.length && fees.length < 12 ? (
+              <button
+                className=" w-100 btn btn-sm btn-danger"
+                onClick={triggerPopup}
+              >
+                Pay next month fees
+              </button>
             ) : null}
           </div>
         </div>
