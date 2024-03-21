@@ -10,7 +10,7 @@ const Layout = ({ children }) => {
   console.log(router);
   useEffect(() => {
     const token = localStorage.getItem("adminTokenErpApplication");
-    console.log("====<", token);
+    // console.log("====<", token);
     if (!token) {
       router.push("/Login");
     }

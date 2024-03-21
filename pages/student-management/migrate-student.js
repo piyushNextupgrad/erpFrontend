@@ -89,15 +89,15 @@ const ClassManagement = () => {
     }
   }
   function handleSelectboxChange(e) {
-    console.log("function hit", e.value);
+    console.log("function hit 1", e.value);
     setselectboxData(e.value);
   }
   function handleSelectboxChangeForMigration(e) {
-    console.log("function hit", e.value);
+    console.log("function hit 2", e.value);
     setselectboxDataMigrate(e.value);
   }
   function handleSelectboxChange2(e) {
-    console.log("function hit", e.value);
+    console.log("function hit 3", e.value);
     setselectboxData2(e.value);
   }
 
@@ -135,12 +135,14 @@ const ClassManagement = () => {
       console.log("students", res);
       if (res.data.success) {
         dispatch(change(false));
-        res.data.data[0].all_students.length > 0
-          ? toast.success("students found")
-          : toast.warning("No students found in selected class");
+
+        toast.success("students found");
+
         setstudents(res.data.data[0]);
       } else {
+        setstudents({});
         dispatch(change(false));
+        toast.warning("no students found");
       }
     } catch (err) {
       dispatch(change(false));
@@ -158,11 +160,30 @@ const ClassManagement = () => {
 
   async function migrateStudents() {
     console.log("migrate selectbox", selectboxDataMigrate);
-    console.log("migrated students");
+    const migratedStudentsIdArr = migratedStudent.map((item) => item._id);
+    console.log("migrated students", migratedStudentsIdArr);
+    console.log("class_id", selectboxData2);
+
     if (selectboxDataMigrate == "") {
       toast.error("Please select a session to migrate the class");
     } else {
       if (migratedStudent.length) {
+        const classObj = associatedClasses.filter(
+          (item, index) => item._id == selectboxData2
+        );
+        console.log("classObj", classObj);
+
+        try {
+          const res = await axiosInstance.post("/class/api/migrateClass", {
+            sessionId: selectboxDataMigrate,
+            students: migratedStudentsIdArr,
+            classId: selectboxData2,
+            classInfo: classObj,
+          });
+          console.log("migrate APi result", res);
+        } catch (err) {
+          toast.error(err.message);
+        }
       } else {
         toast.error("Please select a students to migrate into new session");
       }

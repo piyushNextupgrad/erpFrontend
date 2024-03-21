@@ -78,11 +78,11 @@ const ClassManagement = () => {
     }
   }
   function handleSelectboxChange(e) {
-    console.log("function hit", e.value);
+    console.log("function hit 1", e.value);
     setselectboxData(e.value);
   }
   function handleSelectboxChange2(e) {
-    console.log("function hit", e.value);
+    console.log("function hit 2", e.value);
     setselectboxData2(e.value);
   }
 
@@ -120,9 +120,14 @@ const ClassManagement = () => {
       console.log("students", res);
       if (res.data.success) {
         dispatch(change(false));
-        toast.success("students found");
+
         setstudents(res.data.data[0]);
+        if (res.data.data[0]?.all_students.length) {
+          toast.success("students found");
+        }
       } else {
+        setstudents({});
+        toast.warning("no students found");
         dispatch(change(false));
       }
     } catch (err) {
@@ -142,12 +147,15 @@ const ClassManagement = () => {
   function updateStudent(id) {
     console.log(id);
   }
+
   function deleteStudent(id) {
     async function finallyDelete() {
       try {
         dispatch(change(true));
         const res = await axiosInstance.post("/student/api/deleteStudent", {
-          id: id,
+          studentId: id,
+          classId: selectboxData2,
+          sessionId: selectboxData,
         });
         if (res.data.success) {
           dispatch(change(false));

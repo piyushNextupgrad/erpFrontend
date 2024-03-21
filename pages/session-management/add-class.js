@@ -68,15 +68,13 @@ const AddClass = () => {
     if (className != "" && classNumber != "" && classSection != "") {
       if (selectboxData != "") {
         dispatch(change(true));
-        const formData = new FormData();
-        formData.append("name", className);
-        formData.append("className", classNumber);
-        formData.append("section", classSection);
-        formData.append("session", selectboxData);
-        const result = await axiosInstance.post(
-          "/class/api/createClass",
-          formData
-        );
+
+        const result = await axiosInstance.post("/class/api/createClass", {
+          name: className,
+          className: classNumber,
+          section: classSection,
+          session: selectboxData,
+        });
         console.log(result);
         if (result.data.sucess) {
           dispatch(change(false));

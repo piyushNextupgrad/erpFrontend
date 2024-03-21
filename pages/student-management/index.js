@@ -87,11 +87,11 @@ const ClassManagement = ({ base64 }) => {
     }
   }
   function handleSelectboxChange(e) {
-    console.log("function hit", e.value);
+    console.log("function hit 1", e.value);
     setselectboxData(e.value);
   }
   function handleSelectboxChange2(e) {
-    console.log("function hit", e.value);
+    console.log("function hit 2", e.value);
     setselectboxData2(e.value);
   }
 
@@ -127,10 +127,10 @@ const ClassManagement = ({ base64 }) => {
       const value = Object.values(formData);
       if (keys.length === value.length) {
         if (selectboxData != "") {
-          (formData.class_id = selectboxData2),
-            (formData.session_id = selectboxData);
           const res = await axiosInstance.post("/student/api/postStudent", {
             formData,
+            class_id: selectboxData2,
+            session_id: selectboxData,
           });
           console.log(res);
           if (res.data.success) {
@@ -148,8 +148,6 @@ const ClassManagement = ({ base64 }) => {
               category: "",
               last_school_attended: "",
               address: "",
-              class_id: "",
-              session_id: "",
               aadhar_card_no: "",
             });
           } else {
@@ -163,7 +161,7 @@ const ClassManagement = ({ base64 }) => {
       }
     } catch (err) {
       console.log("error", err);
-      if (err.request.response.includes("E11000")) {
+      if (err?.request?.response?.includes("E11000")) {
         toast.error("Student adhar already exists in system.");
       } else {
         toast.error(err.message);
