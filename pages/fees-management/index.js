@@ -26,6 +26,9 @@ const ClassManagement = () => {
   const [togglePayFee, settogglePayFee] = useState(false);
   const [studentName, setstudentName] = useState("");
   const [formType, setformType] = useState("");
+  const [selectedRows, setSelectedRows] = useState([]);
+  const [sessionName, setsessionName] = useState("");
+  const [className, setclassName] = useState("");
   useEffect(() => {
     getSession();
   }, []);
@@ -87,10 +90,12 @@ const ClassManagement = () => {
   function handleSelectboxChange(e) {
     console.log("function hit 1", e.value);
     setselectboxData(e.value);
+    setsessionName(e.label);
   }
   function handleSelectboxChange2(e) {
     console.log("function hit 2", e.value);
     setselectboxData2(e.value);
+    setclassName(e.label);
   }
 
   async function getClassesInsideSession() {
@@ -104,8 +109,12 @@ const ClassManagement = () => {
         dispatch(change(false));
         console.log("class data", res.data.data);
         setassociatedClasses(res.data.data);
+        setfees([]);
+        settogglePayFee(false);
       } else {
         dispatch(change(false));
+        setfees([]);
+        settogglePayFee(false);
       }
     } catch (err) {
       dispatch(change(false));
@@ -135,6 +144,8 @@ const ClassManagement = () => {
       } else {
         setstudents({});
         toast.warning("no students found");
+        setfees([]);
+        settogglePayFee(false);
         dispatch(change(false));
       }
     } catch (err) {
@@ -177,6 +188,136 @@ const ClassManagement = () => {
     } else {
       settoggle(true);
       setformType("mid-session");
+    }
+  }
+
+  const handleCheckboxChange = (event, item) => {
+    const isChecked = event.target.checked;
+
+    if (isChecked) {
+      setSelectedRows((prevSelectedRows) => [...prevSelectedRows, item]);
+    } else {
+      setSelectedRows((prevSelectedRows) =>
+        prevSelectedRows.filter((data) => data._id !== item._id)
+      );
+    }
+  };
+
+  useEffect(() => {
+    if (selectedRows.length) {
+      console.log("selected data", selectedRows);
+    }
+  }, [selectedRows]);
+
+  //   function generaterecipt() {
+  //     const currentDate = new Date();
+  //     if (selectedRows.length) {
+  //       const section1 = `
+  //       <p>Date : ${currentDate}</p>
+  //       <p>Student Name : ${studentName.first_name} ${studentName.last_name}</p>
+  //       <p>Father's Name : ${studentName.father_name}</p>
+  //       <p>Contact : ${studentName.phone_no}</p>
+  //     `;
+
+  //       const bill = selectedRows.map(
+  //         (item, index) =>
+  //           `
+  //         <p key=${index}>Month : ${item.month}</p>
+  //         <p>Amount : ${item.amount}</p>
+  //         <p>Status : Paid</p>
+  //       `
+  //       );
+
+  //       const receiptContent = `
+  //       <style>
+  //       @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+  // @import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
+  //       .printContainer{
+  //         font-family: "Open Sans", sans-serif;
+  //         font-size: 14px;
+
+  //       }
+
+  //       </style>
+  //       <div class="printContainer">
+
+  //         ${section1}
+  //         ${bill}
+  //       </div>
+  //     `;
+
+  //       const receiptWindow = window.open("", "_blank");
+  //       receiptWindow.document.write(receiptContent);
+  //       receiptWindow.document.close();
+
+  //       receiptWindow.onload = () => {
+  //         receiptWindow.print();
+  //       };
+  //     } else {
+  //       toast.warning("please select some fee records first");
+  //     }
+  //   }
+
+  function generaterecipt() {
+    const currentDate = new Date();
+    if (selectedRows.length) {
+      const section1 = `
+      .....................................................
+      <p>Date : ${moment(currentDate).format("MMM Do YYYY")}</p>
+      <p>Student Name : ${studentName.first_name} ${studentName.last_name}</p>
+      <p>Father's Name : ${studentName.father_name}</p>
+      <p>Contact : ${studentName.phone_no}</p>
+      <p>Session : ${sessionName}</p>
+      <p>Contact : ${className}</p>
+      .....................................................
+    `;
+
+      const bill = selectedRows.map(
+        (item, index) =>
+          `
+        <p key=${index}>Month : ${item.month}</p>
+        <p>Amount : ${item.amount}</p>
+        <p>Status : Paid</p>
+      `
+      );
+
+      const receiptContent = `
+      <style>
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+        @import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
+        
+        .printContainer {
+          font-family: "Open Sans", sans-serif;
+          font-size: 14px;
+        }
+
+        @media print {
+          @page {
+            size: 8.5in 11in; /* Set page size for printing */
+            margin: 0; /* Remove default margin */
+          }
+
+          .printContainer {
+            padding: 10px; /* Add padding to content */
+          }
+        }
+      </style>
+      <div class="printContainer">
+        ${section1}
+        ${bill}
+        .....................................................
+      </div>
+    `;
+
+      const receiptWindow = window.open("", "_blank");
+      receiptWindow.document.write(receiptContent);
+      receiptWindow.document.close();
+
+      receiptWindow.onload = () => {
+        receiptWindow.print();
+      };
+    } else {
+      toast.warning("Please select some fee records first");
     }
   }
 
@@ -271,10 +412,19 @@ const ClassManagement = () => {
               <>
                 <h2 className=" mt-5 mb-1">
                   FEE HISTORY - {studentName.first_name} {studentName.last_name}{" "}
+                  <div className="text-end">
+                    <button
+                      className="btn btn-sm btn-danger"
+                      onClick={generaterecipt}
+                    >
+                      Generate Fee Recipt
+                    </button>
+                  </div>
                 </h2>
                 <Table className="my-5 shadow" responsive>
                   <thead>
                     <tr>
+                      <th>Select</th>
                       <th>No</th>
                       <th>Month</th>
                       <th>Amount</th>
@@ -284,6 +434,13 @@ const ClassManagement = () => {
                   <tbody>
                     {fees.map((item, index) => (
                       <tr key={index}>
+                        <td>
+                          <input
+                            type="checkbox"
+                            checked={selectedRows.includes(item)}
+                            onChange={(e) => handleCheckboxChange(e, item)}
+                          />
+                        </td>
                         <td>{index + 1}</td>
                         <td>{item.month}</td>
                         <td>{item.amount}</td>

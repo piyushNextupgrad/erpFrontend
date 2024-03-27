@@ -79,6 +79,7 @@ export function Popup({
       <Modal
         show={show}
         onHide={handleClose}
+        size="lg"
         backdrop="static"
         keyboard={false}
       >
