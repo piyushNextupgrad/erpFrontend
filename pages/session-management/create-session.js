@@ -45,12 +45,11 @@ const DynamicSession = () => {
   async function createSession() {
     try {
       const formData = new FormData();
-      formData.append("sessionName", sessionname);
-      formData.append("date", date);
-      const data = await axiosInstance.post(
-        "/session/api/createSession",
-        formData
-      );
+
+      const data = await axiosInstance.post("/session/api/createSession", {
+        sessionName: sessionname,
+        date: date,
+      });
 
       // console.log("===>", data);
       if (data.data.success) {

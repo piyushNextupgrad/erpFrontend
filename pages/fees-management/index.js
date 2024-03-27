@@ -23,6 +23,9 @@ const ClassManagement = () => {
   //
   const [fees, setfees] = useState([]);
   const [toggle, settoggle] = useState(false);
+  const [togglePayFee, settogglePayFee] = useState(false);
+  const [studentName, setstudentName] = useState("");
+  const [formType, setformType] = useState("");
   useEffect(() => {
     getSession();
   }, []);
@@ -142,6 +145,10 @@ const ClassManagement = () => {
 
   async function checkfeesStatus(id) {
     console.log(id);
+    const student = students.all_students.filter((item) => item._id == id);
+    console.log("selected student", student);
+    setstudentName(student[0]);
+    setfees([]);
     try {
       const res = await axiosInstance.post("/fee/api/findSingleFeeRecord", {
         studentId: id,
@@ -152,7 +159,9 @@ const ClassManagement = () => {
       if (res.data.success) {
         toast.success("fee records found");
         setfees(res.data.data[0].fees);
+        settogglePayFee(false);
       } else {
+        settogglePayFee(true);
         toast.warning("no fee records found");
       }
     } catch (err) {
@@ -160,13 +169,30 @@ const ClassManagement = () => {
     }
   }
 
-  function triggerPopup() {
-    settoggle(true);
+  function triggerPopup(payment) {
+    if (payment === "initial-payment") {
+      settoggle(true);
+
+      setformType("initial");
+    } else {
+      settoggle(true);
+      setformType("mid-session");
+    }
   }
 
   return (
     <>
-      <Popup toggle={toggle} settoggle={settoggle} />
+      <Popup
+        toggle={toggle}
+        settoggle={settoggle}
+        formType={formType}
+        setformType={setformType}
+        selectboxData={selectboxData}
+        selectboxData2={selectboxData2}
+        fees={fees}
+        studentName={studentName}
+        checkfeesStatus={checkfeesStatus}
+      />
       <div className="main">
         <div className="container">
           <div className="my-3">
@@ -243,7 +269,9 @@ const ClassManagement = () => {
             ) : null}
             {fees?.length ? (
               <>
-                <h2 className=" mt-5 mb-1">FEE HISTORY </h2>
+                <h2 className=" mt-5 mb-1">
+                  FEE HISTORY - {studentName.first_name} {studentName.last_name}{" "}
+                </h2>
                 <Table className="my-5 shadow" responsive>
                   <thead>
                     <tr>
@@ -279,10 +307,25 @@ const ClassManagement = () => {
             {fees.length && fees.length < 12 ? (
               <button
                 className=" w-100 btn btn-sm btn-danger"
-                onClick={triggerPopup}
+                onClick={() => triggerPopup("session-mid-payment")}
               >
                 Pay next month fees
               </button>
+            ) : null}
+            {togglePayFee ? (
+              <>
+                <h2 className=" mt-5 mb-1">
+                  PAY INITIAL FEES - {studentName.first_name}
+                  {studentName.last_name}
+                </h2>
+                <button
+                  className=" w-100 btn btn-sm btn-danger mt-3"
+                  onClick={() => triggerPopup("initial-payment")}
+                >
+                  Pay Fees
+                </button>
+                <form></form>
+              </>
             ) : null}
           </div>
         </div>
