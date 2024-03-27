@@ -17,7 +17,7 @@ export default function Home() {
       </Head>
       <main className={styles.main}>
         <div className="container">
-          <h2 className="mb-5 text-end">WELCOME TO DASHBOARD</h2>
+          <h2 className="mb-5 px-5">WELCOME TO DASHBOARD</h2>
 
           <div className={styles.card}>
             {studentManagement.map((item, index) => (

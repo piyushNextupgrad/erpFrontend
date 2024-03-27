@@ -38,6 +38,7 @@ const Login = () => {
 
         const token = res.data.token;
         localStorage.setItem("adminTokenErpApplication", token);
+        localStorage.setItem("settings", res.data.setting.schoolName);
         router.push("/");
       } else {
         dispatch(change(false));

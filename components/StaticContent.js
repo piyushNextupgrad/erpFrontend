@@ -30,31 +30,27 @@ export const studentManagement = [
     option: "fee management",
     summary:
       "Use this module to manage fees. Find Insert and view fees records",
-    btn: ["Insert Fees", "Update and Delete Fees"],
-    links: [
-      "/fees-management/",
-      "/session-management/update-session",
-      "/session-management/delete-session",
-    ],
+    btn: ["Insert Fees"],
+    links: ["/fees-management/"],
   },
-  {
-    option: "user management",
-    summary: "use this module to create and manage dashboard users",
-    btn: ["create student data", "update studne data", "delete student data"],
-    links: [
-      "/session-management/create-session",
-      "/session-management/update-session",
-      "/session-management/delete-session",
-    ],
-  },
-  {
-    option: "exam management",
-    summary: "use this module to manage exams",
-    btn: ["create student data", "update studne data", "delete student data"],
-    links: [
-      "/session-management/create-session",
-      "/session-management/update-session",
-      "/session-management/delete-session",
-    ],
-  },
+  // {
+  //   option: "user management",
+  //   summary: "use this module to create and manage dashboard users",
+  //   btn: ["create student data", "update studne data", "delete student data"],
+  //   links: [
+  //     "/session-management/create-session",
+  //     "/session-management/update-session",
+  //     "/session-management/delete-session",
+  //   ],
+  // },
+  // {
+  //   option: "exam management",
+  //   summary: "use this module to manage exams",
+  //   btn: ["create student data", "update studne data", "delete student data"],
+  //   links: [
+  //     "/session-management/create-session",
+  //     "/session-management/update-session",
+  //     "/session-management/delete-session",
+  //   ],
+  // },
 ];

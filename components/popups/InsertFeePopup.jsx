@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useMemo } from "react";
 import axiosInstance from "@/axios/axios";
 import { toast } from "sonner";
+import Swal from "sweetalert2";
 
 export function Popup({
   toggle,
@@ -54,24 +55,43 @@ export function Popup({
   };
   const handleShow = () => setShow(true);
 
-  async function payFees(event) {
+  function payFees(event) {
     event.preventDefault();
-    console.log("pay fee function hit");
-    try {
-      const res = await axiosInstance.post("/fee/api/insertFeeRecord", {
-        classId: selectboxData2,
-        studentId: studentName._id,
-        sessionId: selectboxData,
-        fees: { amount: amount, month: months[fees.length] },
-      });
-      if (res.data.success) {
-        handleClose();
-        toast.success("fee saved");
-        setAmount("");
-        checkfeesStatus(studentName._id);
+    Swal.fire({
+      title: "Warning",
+      text: "Are you sure you want to pay fees. Please verify once again as you wont be able to modify the fees record again and it will be permanent.",
+      showDenyButton: true,
+      icon: "warning",
+
+      confirmButtonText: "Yes Pay",
+      denyButtonText: `Don't Pay`,
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        finallyPay();
+      } else if (result.isDenied) {
+        toast.success("Cancelled");
       }
-    } catch (err) {
-      toast.error(err.message);
+    });
+
+    async function finallyPay() {
+      console.log("pay fee function hit");
+      try {
+        const res = await axiosInstance.post("/fee/api/insertFeeRecord", {
+          classId: selectboxData2,
+          studentId: studentName._id,
+          sessionId: selectboxData,
+          fees: { amount: amount, month: months[fees.length] },
+        });
+        if (res.data.success) {
+          handleClose();
+          toast.success("fee saved");
+          setAmount("");
+          checkfeesStatus(studentName._id);
+        }
+      } catch (err) {
+        toast.error(err.message);
+      }
     }
   }
   return (

@@ -13,8 +13,6 @@ body {
   background-image: url("/white-back2.jpg");
   background-position: center;
   background-size: cover;
-
-  background-repeat: repeat-y;
 }
 .main {
   position: relative;
@@ -144,4 +142,11 @@ h5 {
   display: flex;
   justify-content: flex-end;
   gap: 30px;
+}
+
+.card-btnGroup {
+  display: flex;
+  height: 127px;
+  flex-direction: column;
+  justify-content: flex-end;
 }

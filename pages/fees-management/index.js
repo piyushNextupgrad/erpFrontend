@@ -260,15 +260,18 @@ const ClassManagement = () => {
 
   function generaterecipt() {
     const currentDate = new Date();
+    const schoolName = localStorage.getItem("settings");
     if (selectedRows.length) {
       const section1 = `
+      <h3>${schoolName ? schoolName : null}</h3>
+      <h4>Fee Recipt</h4>
       .....................................................
       <p>Date : ${moment(currentDate).format("MMM Do YYYY")}</p>
       <p>Student Name : ${studentName.first_name} ${studentName.last_name}</p>
       <p>Father's Name : ${studentName.father_name}</p>
       <p>Contact : ${studentName.phone_no}</p>
       <p>Session : ${sessionName}</p>
-      <p>Contact : ${className}</p>
+      <p>Class : ${className}</p>
       .....................................................
     `;
 
@@ -278,6 +281,7 @@ const ClassManagement = () => {
         <p key=${index}>Month : ${item.month}</p>
         <p>Amount : ${item.amount}</p>
         <p>Status : Paid</p>
+        <p>Paid On : ${moment(item.createdAt).format("MMM Do YYYY")}</p>
       `
       );
 
@@ -289,6 +293,9 @@ const ClassManagement = () => {
         .printContainer {
           font-family: "Open Sans", sans-serif;
           font-size: 14px;
+          display:grid;
+          grid-template-columns:auto;
+          justify-items:center;
         }
 
         @media print {
@@ -316,6 +323,7 @@ const ClassManagement = () => {
       receiptWindow.onload = () => {
         receiptWindow.print();
       };
+      setSelectedRows([]);
     } else {
       toast.warning("Please select some fee records first");
     }
@@ -472,8 +480,8 @@ const ClassManagement = () => {
             {togglePayFee ? (
               <>
                 <h2 className=" mt-5 mb-1">
-                  PAY INITIAL FEES - {studentName.first_name}
-                  {studentName.last_name}
+                  PAY {studentName.first_name}&nbsp;
+                  {studentName.last_name}'s INITIAL FEES
                 </h2>
                 <button
                   className=" w-100 btn btn-sm btn-danger mt-3"
