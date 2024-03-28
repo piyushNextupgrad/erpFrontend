@@ -185,6 +185,9 @@ const ClassManagement = () => {
       settoggle(true);
 
       setformType("initial");
+    } else if (payment === "custom") {
+      settoggle(true);
+      setformType("custom");
     } else {
       settoggle(true);
       setformType("mid-session");
@@ -470,12 +473,20 @@ const ClassManagement = () => {
               </>
             ) : null}
             {fees.length && fees.length < 12 ? (
-              <button
-                className=" w-100 btn btn-sm btn-danger"
-                onClick={() => triggerPopup("session-mid-payment")}
-              >
-                Pay next month fees
-              </button>
+              <>
+                <button
+                  className=" w-25 btn btn-sm btn-danger"
+                  onClick={() => triggerPopup("session-mid-payment")}
+                >
+                  Pay next month fees
+                </button>
+                <button
+                  className=" w-25 btn btn-sm btn-danger  mx-3"
+                  onClick={() => triggerPopup("custom")}
+                >
+                  Pay Custom Amount
+                </button>
+              </>
             ) : null}
             {togglePayFee ? (
               <>
@@ -484,11 +495,18 @@ const ClassManagement = () => {
                   {studentName.last_name}'s INITIAL FEES
                 </h2>
                 <button
-                  className=" w-100 btn btn-sm btn-danger mt-3"
+                  className=" w-25 btn btn-sm btn-danger mt-3 mx-3"
                   onClick={() => triggerPopup("initial-payment")}
                 >
                   Pay Fees
                 </button>
+                <button
+                  className=" w-25 btn btn-sm btn-danger mt-3 mx-3"
+                  onClick={() => triggerPopup("custom")}
+                >
+                  Pay Custom Amount
+                </button>
+
                 <form></form>
               </>
             ) : null}

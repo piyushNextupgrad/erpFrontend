@@ -9,6 +9,19 @@
   /* color: #364150; */
   color: #637386;
 }
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
 body {
   background-image: url("/white-back2.jpg");
   background-position: center;
@@ -149,4 +162,8 @@ h5 {
   height: 127px;
   flex-direction: column;
   justify-content: flex-end;
+}
+
+.customFeeForm {
+  padding-left: 4rem;
 }
